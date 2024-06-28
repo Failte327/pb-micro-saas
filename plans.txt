@@ -1,0 +1,4 @@
+Create a request_maker that runs, keeps token, keeps track of token timer, so that we don't get locked out
+Query players and choose first in list? or require player id, not sure
+Bracket creation - options:
+    
