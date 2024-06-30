@@ -16,8 +16,6 @@ def get():
     if auth_token == "":
         auth_url = f"{base_url}{auth_endpoint}"
         # credentials go here
-        data = {
-        }
         response = requests.post(auth_url, json=data)
         json = response.json()
         auth_token = json["result"]["accessToken"]
@@ -38,8 +36,6 @@ def post():
     if auth_token == "":
         auth_url = f"{base_url}{auth_endpoint}"
         # credentials go here
-        data = {
-        }
         response = requests.post(auth_url, json=data)
         json = response.json()
         auth_token = json["result"]["accessToken"]

@@ -1,39 +1,47 @@
 import requests
 
-player_id = "8105602894"
 
+print("Fetching player ratings...")
 search_url = f"player/v1.0/search"
+player_ratings = {}
 
-# Change query to whatever the player's name is
-query_data = {
-    "limit":10,
-    "offset":0,
-    "query":"*",
-    "exclude":[],
-    "includeUnclaimedPlayers":True,
-    "filter":{
-        "lat":40.114955,
-        "lng":-111.654923,
-        "rating":{
-            "maxRating":None,
-            "minRating":None
-            },
-        "locationText":""
-        }
-}
+# Sample list from a recent open play event
+player_list = []
 
-data = {
-    "endpoint": search_url,
-    "data": query_data
-}
+for i in player_list:
+    query_data = {
+        "limit":10,
+        "offset":0,
+        "query":f"{i}",
+        "exclude":[],
+        "includeUnclaimedPlayers":True,
+        "filter":{
+            "lat":40.114955,
+            "lng":-111.654923,
+            "rating":{
+                "maxRating":None,
+                "minRating":None
+                },
+            "locationText":""
+            }
+    }
 
-response = requests.post("http://127.0.0.1:5000/make_post_request", json=data)
+    data = {
+        "endpoint": search_url,
+        "data": query_data
+    }
 
-search_result = response.json()
+    response = requests.post("http://127.0.0.1:5000/make_post_request", json=data)
 
-# Goes through the matching search results, picks the first one, grabs their doubles rating
-doubles_rating = search_result["result"]["hits"][0]["ratings"]["doubles"]
-player_name = search_result["result"]["hits"][0]["fullName"]
+    search_result = response.json()
 
-print(player_name)
-print(doubles_rating)
+    # Goes through the matching search results, picks the first one, grabs their doubles rating
+    if search_result["result"]["hits"] != []:
+        doubles_rating = search_result["result"]["hits"][0]["ratings"]["doubles"]
+        player_name = search_result["result"]["hits"][0]["fullName"]
+
+        player_ratings[player_name] = doubles_rating
+    else:
+        print(f"No entry found for {i}")
+
+print(player_ratings)
