@@ -1,6 +1,5 @@
 from flask import Flask, request
 import requests
-from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
@@ -16,6 +15,7 @@ def get():
     if auth_token == "":
         auth_url = f"{base_url}{auth_endpoint}"
         # credentials go here
+        data = {}
         response = requests.post(auth_url, json=data)
         json = response.json()
         auth_token = json["result"]["accessToken"]
@@ -36,6 +36,7 @@ def post():
     if auth_token == "":
         auth_url = f"{base_url}{auth_endpoint}"
         # credentials go here
+        data = {}
         response = requests.post(auth_url, json=data)
         json = response.json()
         auth_token = json["result"]["accessToken"]
@@ -44,4 +45,5 @@ def post():
     requested = requests.post(f"{base_url}{provided_endpoint}", headers={"Authorization": f"Bearer {auth_token}"}, json=provided_data)
     print(requested.json())
     return requested.json()
+
     

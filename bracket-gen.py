@@ -1,9 +1,12 @@
+from bracketool.single_elimination import SingleEliminationGen
+from bracketool.domain import *
+from pprint import pprint
 import requests
-
 
 print("Fetching player ratings...")
 search_url = f"player/v1.0/search"
-player_ratings = {}
+competitor_list = []
+default_rating = float("3.5")
 
 # Sample list from a recent open play event
 player_list = []
@@ -38,10 +41,24 @@ for i in player_list:
     # Goes through the matching search results, picks the first one, grabs their doubles rating
     if search_result["result"]["hits"] != []:
         doubles_rating = search_result["result"]["hits"][0]["ratings"]["doubles"]
+        if doubles_rating == "NR":
+            doubles_rating = default_rating
+        else:
+            doubles_rating = float(search_result["result"]["hits"][0]["ratings"]["doubles"])
         player_name = search_result["result"]["hits"][0]["fullName"]
-
-        player_ratings[player_name] = doubles_rating
+        new_comp = Competitor(name=player_name, team=player_name, rating=doubles_rating)
+        competitor_list.append(new_comp)
     else:
         print(f"No entry found for {i}")
 
-print(player_ratings)
+gen = SingleEliminationGen(
+    use_three_way_final=False,
+    third_place_clash=True,
+    use_rating=True,
+    use_teams=True,
+    random_seed=42
+)
+
+output = gen.generate(competitor_list)
+
+pprint(output.rounds[0])
