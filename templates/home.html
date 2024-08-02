@@ -1,0 +1,88 @@
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <link
+    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css?family=Kaushan+Script|Herr+Von+Muellerhoff"
+    rel="stylesheet"
+    type="text/css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css?family=Abel"
+    rel="stylesheet"
+    type="text/css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css?family=Istok+Web|Roboto+Condensed:700"
+    rel="stylesheet"
+    type="text/css"
+  />
+  <link
+  href="../static/css/styles.css"
+  rel="stylesheet"
+  type="text/css"
+  >
+  <title>PickleWizard Bracket Generator</title>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-wrap">
+      <h1 id="headline">PickleWizard</h1>
+      <p class="year">2024
+      </p>
+      <p>Bracket Generator</p>
+    </div>
+  </header>
+
+  <section id="bracket">
+    <div class="container">
+      <div class="input-group">
+        <form
+          id="players"
+          method="POST"
+          class="form-control"
+          action="javascript:generateBracket()"
+        >
+          <input
+            id="playername"
+            name="playername"
+            placeholder="Player Names"
+            class="form-control form-control-sm"
+          ></input>
+          <br />
+          <button type="submit" class="btn">Generate Bracket</button>
+        </form>
+    </div>
+  </section>
+  <section class="share">
+  </section>
+  <script>
+    const form = document.querySelector("#players");
+
+async function generateBracket() {
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch("http://127.0.0.1:10000/generate_bracket", {
+      method: "POST",
+      body: formData,
+    });
+    response.text().then((text) => {
+        data = JSON.parse(text)
+        for (var i in data) {
+          if (document.querySelector(`#${i}`) !== null) {
+            document.querySelector(`#${i}`).remove()
+          }
+          var ele = document.createElement("div")
+        }
+    })
+  } catch (e) {
+    console.error(e);
+  }
+}
+  </script>
+</body>

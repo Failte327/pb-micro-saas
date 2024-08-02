@@ -21,7 +21,10 @@ def get():
     if auth_token == "":
         auth_url = f"{base_url}{auth_endpoint}"
         # credentials go here
-        data = {}
+        data = {
+            "email": "timothy.twelker@gmail.com",
+            "password": "Shealyn15!"
+        }
         response = requests.post(auth_url, json=data)
         json = response.json()
         auth_token = json["result"]["accessToken"]
@@ -42,7 +45,10 @@ def post():
     if auth_token == "":
         auth_url = f"{base_url}{auth_endpoint}"
         # credentials go here
-        data = {}
+        data = {
+            "email": "timothy.twelker@gmail.com",
+            "password": "Shealyn15!"
+        }
         response = requests.post(auth_url, json=data)
         json = response.json()
         auth_token = json["result"]["accessToken"]
@@ -52,15 +58,20 @@ def post():
     print(requested.json())
     return requested.json()
 
-@app.route('/generate_bracket')
+@app.route('/generate_bracket', methods=["POST"])
 def generate_bracket():
     print("Fetching player ratings...")
     search_url = f"player/v1.0/search"
     competitor_list = []
     default_rating = float("3.5")
+    player_list = request.form.get("playername").split(",")
+    counter = 0
+    for i in player_list:
+        new = i.strip().lower()
+        player_list[counter] = new
+        counter = counter + 1
 
-    # Sample list from a recent open play event
-    player_list = ['Timothy Twelker', 'Sean Halbleib', 'David Andersen', 'Garry Oborn']
+    print(player_list)
 
     for i in player_list:
         query_data = {
@@ -85,8 +96,9 @@ def generate_bracket():
             "data": query_data
         }
 
-        response = requests.post("http://127.0.0.1:5000/make_post_request", json=data)
+        response = requests.post("http://127.0.0.1:10000/make_post_request", json=data)
 
+        print(response)
         search_result = response.json()
 
         # Goes through the matching search results, picks the first one, grabs their doubles rating
@@ -113,4 +125,7 @@ def generate_bracket():
     output = gen.generate(competitor_list)
 
     print(output.rounds[0])
-    return output.rounds[0]
+        
+    for n in output.rounds[0]:
+        print(str(n))
+    return "Bracket successfully generated"
