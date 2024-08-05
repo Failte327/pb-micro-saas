@@ -125,7 +125,12 @@ def generate_bracket():
     output = gen.generate(competitor_list)
 
     print(output.rounds[0])
-        
+    
+    clashes = {}
+    clash_number = 0
     for n in output.rounds[0]:
-        print(str(n))
-    return "Bracket successfully generated"
+        competitor_a = n.competitor_a.name
+        competitor_b = n.competitor_b.name
+        clashes[clash_number] = f"{competitor_a},{competitor_b}"
+        clash_number = clash_number + 1
+    return clashes

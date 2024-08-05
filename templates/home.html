@@ -73,11 +73,38 @@ async function generateBracket() {
     });
     response.text().then((text) => {
         data = JSON.parse(text)
+        if (document.querySelector(`#outerDiv`) !== null) {
+            document.querySelector(`#outerDiv`).remove()
+        }
+        var outerDiv = document.createElement("div")
+        outerDiv.classList = ["split split-one"]
+        outerDiv.id = "outerDiv"
+        document.querySelector(".container").appendChild(outerDiv)
+        var roundOne = document.createElement("div")
+        roundOne.classList = ["round round-one current"]
+        roundOne.id = "roundOne"
+        document.querySelector("#outerDiv").appendChild(roundOne)
+        var roundDetails = document.createElement("div")
+        roundDetails.classList = "round-details"
+        roundDetails.id = "roundDetails"
+        roundDetails.innerHTML = "Round 1"
+        document.querySelector("#roundOne").appendChild(roundDetails)
         for (var i in data) {
-          if (document.querySelector(`#${i}`) !== null) {
-            document.querySelector(`#${i}`).remove()
-          }
-          var ele = document.createElement("div")
+          competitors = data[i].split(",")
+          var matchup = document.createElement("ul")
+          matchup.classList = "matchup"
+          matchup.id = "matchup" + i
+          document.querySelector("#roundOne").appendChild(matchup)
+          var competitor1 = document.createElement("li")
+          competitor1.classList = ["team team-top"]
+          competitor1.id = competitors[0]
+          competitor1.innerHTML = competitors[0]
+          document.querySelector(`#matchup${i}`).appendChild(competitor1)
+          var competitor2 = document.createElement("li")
+          competitor2.classList = ["team team-bottom"]
+          competitor2.id = competitors[1]
+          competitor2.innerHTML = competitors[1]
+          document.querySelector(`#matchup${i}`).appendChild(competitor2)
         }
     })
   } catch (e) {
