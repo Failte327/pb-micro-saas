@@ -130,7 +130,10 @@ def generate_bracket():
     clash_number = 0
     for n in output.rounds[0]:
         competitor_a = n.competitor_a.name
-        competitor_b = n.competitor_b.name
+        if n.competitor_b is not None:
+            competitor_b = n.competitor_b.name
+        else:
+            competitor_b = "BYE"
         clashes[clash_number] = f"{competitor_a},{competitor_b}"
         clash_number = clash_number + 1
     return clashes

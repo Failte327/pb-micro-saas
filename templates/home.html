@@ -122,16 +122,32 @@ async function generateBracket() {
           matchup.classList = "matchup"
           matchup.id = `matchup${loops}${loops}`;
           document.querySelector("#roundTwo").appendChild(matchup)
-          var emptyRound1 = document.createElement("li")
-          emptyRound1.classList = ["team team-top"]
-          emptyRound1.innerHTML = "&nbsp;";
-          document.querySelector(`#matchup${loops}${loops}`).appendChild(emptyRound1)
-          var emptyRound2 = document.createElement("li")
-          emptyRound2.classList = ["team team-bottom"]
-          emptyRound2.innerHTML = "&nbsp;";
-          document.querySelector(`#matchup${loops}${loops}`).appendChild(emptyRound2)
-          loops++
+          var emptyRound1 = document.createElement("li");
+          emptyRound1.classList = ["team team-top"];
+          emptyRound1.id = `emptyRound${loops}1`;
+          document.querySelector(`#matchup${loops}${loops}`).appendChild(emptyRound1);
+          var emptyRound2 = document.createElement("li");
+          emptyRound2.classList = ["team team-bottom"];
+          emptyRound2.id = `emptyRound${loops}2`;
+          document.querySelector(`#matchup${loops}${loops}`).appendChild(emptyRound2);
+          loops++;
         }
+        var emptyInput1 = document.createElement("input");
+        emptyInput1.id = "roundOneVictor";
+        emptyInput1.classList = "form-control form-control-sm"
+        document.querySelector(`#emptyRound11`).appendChild(emptyInput1);
+        var emptyInput2 = document.createElement("input");
+        emptyInput2.id = "roundTwoVictor";
+        emptyInput2.classList = "form-control form-control-sm"
+        document.querySelector(`#emptyRound12`).appendChild(emptyInput2);
+        var emptyInput3 = document.createElement("input");
+        emptyInput3.id = "roundThreeVictor";
+        emptyInput3.classList = "form-control form-control-sm"
+        document.querySelector(`#emptyRound21`).appendChild(emptyInput3);
+        var emptyInput4 = document.createElement("input");
+        emptyInput4.id = "roundFourVictor";
+        emptyInput4.classList = "form-control form-control-sm"
+        document.querySelector(`#emptyRound22`).appendChild(emptyInput4);
     })
   } catch (e) {
     console.error(e);
