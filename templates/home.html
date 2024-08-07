@@ -89,6 +89,15 @@ async function generateBracket() {
         roundDetails.id = "roundDetails"
         roundDetails.innerHTML = "Round 1"
         document.querySelector("#roundOne").appendChild(roundDetails)
+        var roundTwo = document.createElement("div")
+        roundTwo.classList = ["round round-two"]
+        roundTwo.id = "roundTwo"
+        document.querySelector("#outerDiv").appendChild(roundTwo)
+        var roundDetails2 = document.createElement("div")
+        roundDetails2.classList = "round-details"
+        roundDetails2.id = "roundDetails2"
+        roundDetails2.innerHTML = "Round 2"
+        document.querySelector("#roundTwo").appendChild(roundDetails2)
         for (var i in data) {
           competitors = data[i].split(",")
           var matchup = document.createElement("ul")
@@ -105,6 +114,23 @@ async function generateBracket() {
           competitor2.id = competitors[1]
           competitor2.innerHTML = competitors[1]
           document.querySelector(`#matchup${i}`).appendChild(competitor2)
+        }
+        var nextRoundParticipants = 2;
+        var loops = 1;
+        while (loops <= nextRoundParticipants) {
+          var matchup = document.createElement("ul")
+          matchup.classList = "matchup"
+          matchup.id = `matchup${loops}${loops}`;
+          document.querySelector("#roundTwo").appendChild(matchup)
+          var emptyRound1 = document.createElement("li")
+          emptyRound1.classList = ["team team-top"]
+          emptyRound1.innerHTML = "&nbsp;";
+          document.querySelector(`#matchup${loops}${loops}`).appendChild(emptyRound1)
+          var emptyRound2 = document.createElement("li")
+          emptyRound2.classList = ["team team-bottom"]
+          emptyRound2.innerHTML = "&nbsp;";
+          document.querySelector(`#matchup${loops}${loops}`).appendChild(emptyRound2)
+          loops++
         }
     })
   } catch (e) {
