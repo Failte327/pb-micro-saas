@@ -77,11 +77,11 @@
     <script>
         let form = document.querySelector("#csv_upload")
 
-        var loader = document.createElement("div");
-        loader.classList = "loader";
-        loader.id = "loader"
-        document.querySelector("#players").appendChild(loader);
         async function uploadCSV() {
+          var loader = document.createElement("div");
+          loader.classList = "loader"; 
+          loader.id = "loader"
+          document.querySelector("#csv_upload").appendChild(loader);
             const formData = new FormData(form);
             try 
             {
@@ -90,10 +90,13 @@
                 body: formData,
             });
             response.text().then((text) => {
-                data = JSON.parse(text)
                 if (document.querySelector("#loader") !== null) {
                   document.querySelector("#loader").remove();
                 }
+                var el = document.createElement("p");
+                el.innerHTML = text;
+                document.querySelector("#csv_upload").appendChild(el);
+                return data
             })
             } 
             catch (e) {
