@@ -41,7 +41,7 @@
         <h1 class="display-4">
           PickleParse
         </h1>
-        <h4 class="lead">Upload a CSV file with player names to see corresponding DUPR data</h2>
+        <h2 class="lead">Upload a CSV file with player names to see corresponding DUPR data</h2>
         <div class="input-group" class="my-4">
           <form
             action="javascript:uploadCSV()"
@@ -61,6 +61,25 @@
           </form>
           <br>
         </div>
+        <h2 class="lead">Alternatively, type player names separated by commas</h2>
+          <div class="input-group" class="my-4">
+            <form
+              action="javascript:getPlayerDuprs()"
+              id="players"
+              method="POST"
+              class="form-control"
+            >
+              <input
+                id="playername"
+                name="playername"
+                placeholder="Player Names"
+                class="form-control form-control-sm"
+              ></input>
+              <br />
+              <button type="submit" class="btn btn-secondary btn-sm">Submit Players</button>
+            </form>
+            <br>
+          </div>
       </div>
     </body>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -103,6 +122,38 @@
             console.error(e);
             }
         }
+    </script>
+    <script>
+      let form2 = document.querySelector("#players");
+
+      async function getPlayerDuprs() {
+        const formData = new FormData(form2);
+
+        var loader = document.createElement("div");
+        loader.classList = "loader";
+        loader.id = "loader"
+        document.querySelector("#players").appendChild(loader);
+
+        try {
+          const response = await fetch("http://127.0.0.1:10000/player_list_search", {
+            method: "POST",
+            body: formData,
+          });
+          response.json().then((json) => {
+            data = json
+            if (document.querySelector("#loader") !== null) {
+                document.querySelector("#loader").remove();
+            }
+            for(var i in data) {
+              var ele = document.createElement("div")
+              ele.innerHTML = JSON.stringify(data[i])
+              document.querySelector("#players").appendChild(ele)
+            }
+          })
+        } catch (e) {
+          console.error(e);
+        }
+      }
     </script>
   </head>
 </html>
