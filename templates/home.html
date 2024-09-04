@@ -101,33 +101,42 @@
           loader.classList = "loader"; 
           loader.id = "loader"
           document.querySelector("#csv_upload").appendChild(loader);
-            const formData = new FormData(form);
-            try 
-            {
-            const response = await fetch("http://127.0.0.1:10000/parse_csv", {
-                method: "POST",
-                body: formData,
-            });
-            response.text().then((text) => {
-                if (document.querySelector("#loader") !== null) {
+          let formData = new FormData(form);
+          try 
+          {
+          const response = await fetch("http://127.0.0.1:10000/parse_csv", {
+              method: "POST",
+              body: formData,
+          });
+          response.text().then((text) => {
+              data = JSON.parse(text)
+              var el = document.createElement("div")
+              el.innerHTML = "DOUBLES RATINGS"
+              document.querySelector("#csv_upload").appendChild(el)
+              if (document.querySelector("#loader") !== null) {
                   document.querySelector("#loader").remove();
-                }
-                var el = document.createElement("p");
-                el.innerHTML = text;
-                document.querySelector("#csv_upload").appendChild(el);
-                return data
-            })
-            } 
-            catch (e) {
-            console.error(e);
-            }
+              }
+              for(var i in data) {
+                var ele = document.createElement("div")
+                ele.innerHTML = JSON.stringify(data[i])
+                document.querySelector("#csv_upload").appendChild(ele)
+              }
+              // var el = document.createElement("p");
+              // el.innerHTML = text;
+              // document.querySelector("#csv_upload").appendChild(el);
+              return data
+          })
+          } 
+          catch (e) {
+          console.error(e);
+          }
         }
     </script>
     <script>
       let form2 = document.querySelector("#players");
 
       async function getPlayerDuprs() {
-        const formData = new FormData(form2);
+        let formData2 = new FormData(form2);
 
         var loader = document.createElement("div");
         loader.classList = "loader";
@@ -137,10 +146,13 @@
         try {
           const response = await fetch("http://127.0.0.1:10000/player_list_search", {
             method: "POST",
-            body: formData,
+            body: formData2,
           });
           response.json().then((json) => {
             data = json
+            var el = document.createElement("div")
+            el.innerHTML = "DOUBLES RATINGS"
+            document.querySelector("#players").appendChild(el)
             if (document.querySelector("#loader") !== null) {
                 document.querySelector("#loader").remove();
             }
