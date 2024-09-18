@@ -2,7 +2,6 @@ from flask import Flask, request, render_template
 from sqlalchemy import create_engine, text
 from loguru import logger
 import requests
-import time
 
 app = Flask(__name__)
 
@@ -33,6 +32,10 @@ with engine.connect() as conn:
 @app.route('/')
 def home():
     return render_template("home.html")
+
+@app.route('/tools')
+def tools():
+    return render_template("tools.html")
 
 # DUPR Request, grabs authentication token first and then submits the requested payload
 @app.route('/make_get_request', methods=['POST'])
